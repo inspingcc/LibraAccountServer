@@ -29,7 +29,7 @@ public class HeartbeatHandler extends ChannelInboundHandlerAdapter implements In
         LibraMessage message = (LibraMessage) msg;
         // 握手成功，主动发送心跳消息
         if (message.getHead() != null && message.getHead().getType() == LibraMessageType.REGIST_RESP.getValue()) {
-            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartbeatHandler.HeartBeatTask(ctx), 0, 10 * 1000,
+            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartbeatHandler.HeartBeatTask(ctx), 0, 20 * 1000,
                     TimeUnit.MILLISECONDS);
         } else if (message.getHead() != null
                 && message.getHead().getType() == LibraMessageType.HEARTBEAT_RESP.getValue()) {
