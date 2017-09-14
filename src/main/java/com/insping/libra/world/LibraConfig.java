@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import com.insping.Const;
+import com.insping.common.utils.TimeUtils;
 import com.insping.log.LibraLog;
 
 public class LibraConfig {
@@ -25,6 +26,7 @@ public class LibraConfig {
     public static String PHONE_ACCOUNT_REGEX = "^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}";
 
     public static String REDIS_TOKEN_PREFIX = "ACCOUNT_TOKEN_";
+    public static long TOKEN_EXPIRES = 20 * Const.DAY;// token 的过期时间
 
     public static void load() {
         try {

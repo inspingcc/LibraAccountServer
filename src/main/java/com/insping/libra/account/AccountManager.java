@@ -81,9 +81,9 @@ public class AccountManager implements Instances {
             // 验证密码正确
             // 生成对应的sessionKey
             long now = TimeUtils.nowLong();
-            if(StringUtils.isNull(user.getToken())|| user.getExpiresTime() < now){
+            if (StringUtils.isNull(user.getToken()) || user.getExpiresTime() < now) {
                 user.setToken(UUID.randomUUID().toString());
-                user.setExpiresTime(now);
+                user.setExpiresTime(now + LibraConfig.TOKEN_EXPIRES);
             }
             // 更新user
             user.save();
