@@ -55,7 +55,7 @@ public class HandlerManager {
                     LibraLog.info("HandlerManager-registerHandlers : handler is error! code = " + code + "handlerClassName: " + handlerClassName);
                     continue;
                 }
-                LibraLog.info("regist handler: " + handlerClassName + ",code =" + code);
+                LibraLog.info("register handler: " + handlerClassName + ",code =" + code);
                 if (handlers.containsKey(code)) {
                     System.out.println(new Exception("handlers>>>" + handlers.get(code) + "  had  registed by " + code));
                 }

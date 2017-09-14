@@ -14,9 +14,10 @@ public class User implements DaoData, Instances {
     private String account;
     private String phoneNumber;
     private String email;
-    private String passwd;
+    private String password;
     private String salt;
-    private String sessionKey;
+    private String token;// 与游戏服务器握手的验证
+    private long expiresTime;// token的过期时间
     private long registerTime;
 
     private String name;
@@ -32,9 +33,9 @@ public class User implements DaoData, Instances {
     /**
      * @param type
      * @param account
-     * @param passwd  采用常见的加密方式 sha1(sha1(passwd)+salt)
+     * @param password  采用常见的加密方式 sha1(sha1(password)+salt)
      */
-    public User(AccountType type, String account, String passwd) {
+    public User(AccountType type, String account, String password) {
         this.uid = accountMgr.idMake.incrementAndGet();
         switch (type) {
             case COMMON:
@@ -50,7 +51,7 @@ public class User implements DaoData, Instances {
                 LibraLog.error("new User is error by cauce is type is default");
         }
         this.salt = StringUtils.randomSalt();
-        this.passwd = DigestUtils.sha1Hex(passwd + salt);
+        this.password = DigestUtils.sha1Hex(password + salt);
         this.registerTime = TimeUtils.nowLong();
         this.name = "libra_" + uid;
         this.icon = "blue_001";
@@ -88,12 +89,12 @@ public class User implements DaoData, Instances {
         this.email = email;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSalt() {
@@ -104,12 +105,20 @@ public class User implements DaoData, Instances {
         this.salt = salt;
     }
 
-    public String getSessionKey() {
-        return sessionKey;
+    public String getToken() {
+        return token;
     }
 
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public long getExpiresTime() {
+        return expiresTime;
+    }
+
+    public void setExpiresTime(long expiresTime) {
+        this.expiresTime = expiresTime;
     }
 
     public long getRegisterTime() {
@@ -166,7 +175,8 @@ public class User implements DaoData, Instances {
         user.setAccount(account);
         user.setPhoneNumber(phoneNumber);
         user.setEmail(email);
-        user.setSessionKey(sessionKey);
+        user.setToken(token);
+        user.setExpiresTime(expiresTime);
         user.setRegisterTime(registerTime);
 
         user.setName(name);
@@ -214,9 +224,9 @@ public class User implements DaoData, Instances {
         account = data.getString(DaoData.USER_ACCOUNT);
         phoneNumber = data.getString(DaoData.USER_PHONENUMBER);
         email = data.getString(DaoData.USER_EMAIL);
-        passwd = data.getString(DaoData.USER_PASSWD);
+        password = data.getString(DaoData.USER_PASSWORD);
         salt = data.getString(DaoData.USER_SALT);
-        sessionKey = data.getString(DaoData.USER_SESSIONKEY);
+        token = data.getString(DaoData.USER_TOKEN);
         registerTime = data.getLong(DaoData.USER_REGISTERTIME);
         name = data.getString(DaoData.USER_NAME);
         icon = data.getString(DaoData.USER_ICON);
@@ -231,9 +241,9 @@ public class User implements DaoData, Instances {
         data.put(DaoData.USER_ACCOUNT, account);
         data.put(DaoData.USER_PHONENUMBER, phoneNumber);
         data.put(DaoData.USER_EMAIL, email);
-        data.put(DaoData.USER_PASSWD, passwd);
+        data.put(DaoData.USER_PASSWORD, password);
         data.put(DaoData.USER_SALT, salt);
-        data.put(DaoData.USER_SESSIONKEY, sessionKey);
+        data.put(DaoData.USER_TOKEN, token);
         data.put(DaoData.USER_REGISTERTIME, registerTime);
         data.put(DaoData.USER_NAME, name);
         data.put(DaoData.USER_ICON, icon);

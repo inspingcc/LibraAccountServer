@@ -69,9 +69,9 @@ public interface DaoData {
     String USER_ACCOUNT = "account";
     String USER_EMAIL = "email";
     String USER_PHONENUMBER = "phoneNumber";
-    String USER_PASSWD = "passwd";
+    String USER_PASSWORD = "password";
     String USER_SALT = "salt";
-    String USER_SESSIONKEY = "sessionKey";
+    String USER_TOKEN = "token";
     String USER_REGISTERTIME = "registerTime";
 
     String USER_NAME = "name";

@@ -1,5 +1,6 @@
 package com.insping;
 
+import com.insping.libra.dao.redis.RedisSessionUtil;
 import com.insping.libra.sock.SockServer;
 import com.insping.libra.world.LibraConfig;
 import com.insping.log.LibraLog;
@@ -14,6 +15,8 @@ public class ServerApp implements Instances {
 		handlerMgr.register();
 		// 加载数据库
 		dbMgr.init();
+		// 初始化redis
+		RedisSessionUtil.getInstance();
 		// 初始化id生成
 		accountMgr.init();
 		// 启动服务

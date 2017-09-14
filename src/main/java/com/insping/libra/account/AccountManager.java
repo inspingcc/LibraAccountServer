@@ -7,11 +7,14 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
 
 import com.insping.Instances;
+import com.insping.common.utils.JsonUtil;
 import com.insping.common.utils.StringUtils;
+import com.insping.common.utils.TimeUtils;
 import com.insping.libra.dao.db.ConditionUnit;
 import com.insping.libra.dao.db.DaoData;
 import com.insping.libra.dao.db.Operator;
 import com.insping.libra.dao.db.SqlData;
+import com.insping.libra.dao.redis.RedisSession;
 import com.insping.libra.world.LibraConfig;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -74,10 +77,20 @@ public class AccountManager implements Instances {
             LibraLog.info("AccountManager-accountLogin : exception error ");
             return null;
         }
-        if (user.getPasswd().equals(DigestUtils.sha1Hex(password + user.getSalt()))) {
+        if (user.getPassword().equals(DigestUtils.sha1Hex(password + user.getSalt()))) {
             // 验证密码正确
             // 生成对应的sessionKey
-            user.setSessionKey(UUID.randomUUID().toString());
+            long now = TimeUtils.nowLong();
+            if(StringUtils.isNull(user.getToken())|| user.getExpiresTime() < now){
+                user.setToken(UUID.randomUUID().toString());
+                user.setExpiresTime(now);
+            }
+            // 更新user
+            user.save();
+            // 更新缓存表(Redis)
+            LibraToken token = new LibraToken(user);
+            RedisSession session = new RedisSession(true);
+            session.set(LibraConfig.REDIS_TOKEN_PREFIX + user.getUid(), JsonUtil.ObjectToJsonString(token));
             return user.clone();
         } else {
             return null;

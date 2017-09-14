@@ -4,6 +4,6 @@
     <ServiceHandler orderCode="register" handlerClass="com.insping.libra.sock.net.handler.impl.RegisterHandler" function="注册请求"/>
     <ServiceHandler orderCode="login" handlerClass="com.insping.libra.sock.net.handler.impl.LoginHandler" function="登录请求"/>
     <ServiceHandler orderCode="modifyinfo" handlerClass="com.insping.libra.sock.net.handler.impl.ModifyInfoHandler" function="修改用户信息"/>
-    <ServiceHandler orderCode="modifypasswd" handlerClass="com.insping.libra.sock.net.handler.impl.ModifyPasswdHandler" function="修改密码"/>
+    <ServiceHandler orderCode="modifypassword" handlerClass="com.insping.libra.sock.net.handler.impl.ModifyPasswordHandler" function="修改密码"/>
 </ServiceHandlers>
 

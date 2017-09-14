@@ -1,7 +1,8 @@
 package com.insping.libra.world;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.sql.Timestamp;
@@ -23,14 +24,15 @@ public class LibraConfig {
     public static String EMAIL_ACCOUNT_REGEX = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
     public static String PHONE_ACCOUNT_REGEX = "^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}";
 
+    public static String REDIS_TOKEN_PREFIX = "ACCOUNT_TOKEN_";
+
     public static void load() {
         try {
             // 加载部分本地数据
             SERVER_IP = InetAddress.getLocalHost().getHostAddress();
             // 加载配置文件
             Properties properties = new Properties();
-            File file = new File(Const.CONF_PATH + "config.properties");
-            properties.load(new FileInputStream(file));
+            properties.load(new InputStreamReader(new BufferedInputStream(new FileInputStream(Const.CONF_PATH + "config.properties")), "UTF-8"));
             Field[] fields = LibraConfig.class.getDeclaredFields();
             for (Field field : fields) {
                 String str = properties.getProperty(field.getName());

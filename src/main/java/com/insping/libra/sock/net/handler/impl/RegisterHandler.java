@@ -18,7 +18,7 @@ public class RegisterHandler extends ServerHandler {
         // 注册
         byte typeNum = Byte.valueOf(params.get("type"));//type 0:普通账号(字母和数字和下划线组成) 1:email账号 2:手机号码注册
         String account = params.get("account");
-        String passwd = params.get("passwd");
+        String password = params.get("password");
         //String salt = params.get("salt");
         AccountType type = AccountType.searchType(typeNum);
         if (type == null) {
@@ -26,7 +26,7 @@ public class RegisterHandler extends ServerHandler {
             return;
         }
         // 检测账号合法性
-        if (StringUtils.isNull(account) || StringUtils.isNull(passwd)) {
+        if (StringUtils.isNull(account) || StringUtils.isNull(password)) {
             resp.fail(I18nGreeting.HTTP_PARAMS_INVALID);
             return;
         }
@@ -40,7 +40,7 @@ public class RegisterHandler extends ServerHandler {
             resp.fail(I18nGreeting.ACCOUNT_FORMAT_ERROR);
             return;
         }
-        User user = accountMgr.accountRegister(type, account, passwd);
+        User user = accountMgr.accountRegister(type, account, password);
         if (user == null) {
             resp.fail(I18nGreeting.HTTP_PARAMS_INVALID);
             return;

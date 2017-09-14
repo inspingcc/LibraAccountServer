@@ -16,10 +16,10 @@ public class LoginHandler extends ServerHandler {
     @Override
     public void doLogic(ReturnObject resp, Map<String, String> params) throws Exception {
         String account = params.get("account");
-        String passwd = params.get("passwd");
+        String password = params.get("password");
 
         // 检测账号合法性
-        if (StringUtils.isNull(account) || StringUtils.isNull(passwd)) {
+        if (StringUtils.isNull(account) || StringUtils.isNull(password)) {
             resp.fail(I18nGreeting.HTTP_PARAMS_INVALID);
             return;
         }
@@ -33,7 +33,7 @@ public class LoginHandler extends ServerHandler {
             resp.fail(I18nGreeting.ACCOUNT_OR_PASSWD_ERROR);
             return;
         }
-        User user = accountMgr.accountLogin(type, account, passwd);
+        User user = accountMgr.accountLogin(type, account, password);
         if (user == null) {
             resp.fail(I18nGreeting.ACCOUNT_OR_PASSWD_ERROR);
             return;
